@@ -31,4 +31,4 @@ jobs:
             npx prisma migrate deploy
             npm run build
             pm2 delete expense-tracker 2>/dev/null || true
-            pm2 start dist/main.js --name expense-tracker
+            pm2 start dist/src/main.js --name expense-tracker
