@@ -42,9 +42,8 @@ export class AuthService {
       throw new ConflictException(ERROR_MESSAGES.AUTH.USERNAME_ALREADY_EXISTS);
     }
 
-    const bcryptRounds = this.configService.get<number>(
-      'security.bcryptRounds',
-    ) || 10;
+    const bcryptRounds =
+      this.configService.get<number>('security.bcryptRounds') || 10;
     const passwordHash = await bcrypt.hash(password, bcryptRounds);
 
     const user = await this.prisma.user.create({
@@ -182,15 +181,19 @@ export class AuthService {
       this.jwtService.signAsync(
         { ...payload, jti: randomUUID() },
         {
-          secret: this.configService.get<string>('jwt.secret'),
-          expiresIn: this.configService.get<string>('jwt.expiresIn'),
+          secret: this.configService.get<string>('jwt.secret') || 'secret',
+          expiresIn: (this.configService.get<string>('jwt.expiresIn') ||
+            '15m') as any,
         },
       ),
       this.jwtService.signAsync(
         { ...payload, jti: randomUUID() },
         {
-          secret: this.configService.get<string>('jwt.refreshSecret'),
-          expiresIn: this.configService.get<string>('jwt.refreshExpiresIn'),
+          secret:
+            this.configService.get<string>('jwt.refreshSecret') ||
+            'refresh-secret',
+          expiresIn: (this.configService.get<string>('jwt.refreshExpiresIn') ||
+            '7d') as any,
         },
       ),
     ]);
@@ -202,7 +205,8 @@ export class AuthService {
     userId: string,
     refreshToken: string,
   ): Promise<void> {
-    const expiresIn = this.configService.get<string>('jwt.refreshExpiresIn') || '7d';
+    const expiresIn =
+      this.configService.get<string>('jwt.refreshExpiresIn') || '7d';
     const expiresAt = new Date();
 
     const days = parseInt(expiresIn.replace('d', ''));

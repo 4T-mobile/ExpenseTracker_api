@@ -114,7 +114,8 @@ export class BudgetsService {
 
     const budgetAmount = parseFloat(budget.amount.toString());
     const remainingAmount = budgetAmount - spentAmount;
-    const percentage = budgetAmount > 0 ? (spentAmount / budgetAmount) * 100 : 0;
+    const percentage =
+      budgetAmount > 0 ? (spentAmount / budgetAmount) * 100 : 0;
 
     const daysRemaining = Math.max(
       0,
@@ -167,7 +168,8 @@ export class BudgetsService {
 
     const budgetAmount = parseFloat(budget.amount.toString());
     const remainingAmount = budgetAmount - spentAmount;
-    const percentage = budgetAmount > 0 ? (spentAmount / budgetAmount) * 100 : 0;
+    const percentage =
+      budgetAmount > 0 ? (spentAmount / budgetAmount) * 100 : 0;
 
     const now = new Date();
     const daysRemaining = Math.max(

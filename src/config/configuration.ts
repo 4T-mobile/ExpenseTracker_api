@@ -15,7 +15,10 @@ export default () => ({
   security: {
     bcryptRounds: parseInt(process.env.BCRYPT_ROUNDS || '10', 10),
     rateLimitMax: parseInt(process.env.RATE_LIMIT_MAX || '100', 10),
-    rateLimitWindowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '60000', 10),
+    rateLimitWindowMs: parseInt(
+      process.env.RATE_LIMIT_WINDOW_MS || '60000',
+      10,
+    ),
   },
   cors: {
     origin: process.env.CORS_ORIGIN || 'http://localhost:3001',

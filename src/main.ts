@@ -16,16 +16,23 @@ async function bootstrap() {
   const apiPrefix = configService.get<string>('apiPrefix') || 'api';
   const apiVersion = configService.get<string>('apiVersion') || 'v1';
   const port = configService.get<number>('port') || 3000;
-  const corsOrigin = configService.get<string>('cors.origin') || 'http://localhost:3001';
+  const corsOrigin =
+    configService.get<string>('cors.origin') || 'http://localhost:3001';
   const corsConfig = {
-    origin: corsOrigin === '*'
-      ? true
-      : typeof corsOrigin === 'string'
-        ? corsOrigin.split(',').map(o => o.trim())
-        : corsOrigin,
+    origin:
+      corsOrigin === '*'
+        ? true
+        : typeof corsOrigin === 'string'
+          ? corsOrigin.split(',').map((o) => o.trim())
+          : corsOrigin,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'Accept',
+      'X-Requested-With',
+    ],
     exposedHeaders: ['Content-Range', 'X-Content-Range'],
     preflightContinue: false,
     optionsSuccessStatus: 204,

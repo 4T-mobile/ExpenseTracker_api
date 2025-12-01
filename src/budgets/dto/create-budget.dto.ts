@@ -47,7 +47,8 @@ export class CreateBudgetDto {
 
   @ApiProperty({
     example: '2025-01-31',
-    description: 'Budget end date (YYYY-MM-DD). If not provided, it will be auto-calculated based on periodType.',
+    description:
+      'Budget end date (YYYY-MM-DD). If not provided, it will be auto-calculated based on periodType.',
     required: false,
   })
   @IsOptional()

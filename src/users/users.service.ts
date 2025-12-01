@@ -109,9 +109,8 @@ export class UsersService {
       throw new UnauthorizedException(ERROR_MESSAGES.USER.INVALID_PASSWORD);
     }
 
-    const bcryptRounds = this.configService.get<number>(
-      'security.bcryptRounds',
-    ) || 10;
+    const bcryptRounds =
+      this.configService.get<number>('security.bcryptRounds') || 10;
     const newPasswordHash = await bcrypt.hash(newPassword, bcryptRounds);
 
     await this.prisma.user.update({

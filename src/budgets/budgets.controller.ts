@@ -66,7 +66,8 @@ export class BudgetsController {
   @ApiOperation({ summary: 'Get current active budget with spending status' })
   @ApiResponse({
     status: 200,
-    description: 'Current budget retrieved successfully (returns null if no active budget)',
+    description:
+      'Current budget retrieved successfully (returns null if no active budget)',
   })
   findCurrent(@CurrentUser('sub') userId: string) {
     return this.budgetsService.findCurrent(userId);
