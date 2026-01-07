@@ -226,20 +226,19 @@ describe('BudgetsService', () => {
 
       const result = await service.findCurrent(userId);
 
-      expect(result).toEqual({
-        budget: mockBudget,
-        spent: 300,
-        remaining: 200,
-        percentage: 60,
-      });
+      expect(result).toHaveProperty('spentAmount', 300);
+      expect(result).toHaveProperty('remainingAmount', 200);
+      expect(result).toHaveProperty('percentage', 60);
+      expect(result).toHaveProperty('isOverBudget', false);
+      expect(result).toHaveProperty('daysRemaining');
     });
 
-    it('should throw NotFoundException if no current budget exists', async () => {
+    it('should return null if no current budget exists', async () => {
       mockPrismaService.budget.findFirst.mockResolvedValue(null);
 
-      await expect(service.findCurrent(userId)).rejects.toThrow(
-        NotFoundException,
-      );
+      const result = await service.findCurrent(userId);
+
+      expect(result).toBeNull();
     });
 
     it('should handle budget with no expenses', async () => {
@@ -248,8 +247,8 @@ describe('BudgetsService', () => {
 
       const result = await service.findCurrent(userId);
 
-      expect(result.spent).toBe(0);
-      expect(result.remaining).toBe(500);
+      expect(result.spentAmount).toBe(0);
+      expect(result.remainingAmount).toBe(500);
       expect(result.percentage).toBe(0);
     });
 
@@ -269,7 +268,8 @@ describe('BudgetsService', () => {
       const result = await service.findCurrent(userId);
 
       expect(result.percentage).toBe(120);
-      expect(result.remaining).toBe(-100);
+      expect(result.remainingAmount).toBe(-100);
+      expect(result.isOverBudget).toBe(true);
     });
 
     it('should handle zero budget amount', async () => {
@@ -319,12 +319,11 @@ describe('BudgetsService', () => {
 
       const result = await service.getStatus(mockBudget.id, userId);
 
-      expect(result).toHaveProperty('budget');
-      expect(result).toHaveProperty('spent');
-      expect(result).toHaveProperty('remaining');
+      expect(result).toHaveProperty('spentAmount');
+      expect(result).toHaveProperty('remainingAmount');
       expect(result).toHaveProperty('percentage');
-      expect(result).toHaveProperty('totalDays');
       expect(result).toHaveProperty('daysRemaining');
+      expect(result).toHaveProperty('isOverBudget');
     });
 
     it('should calculate days remaining correctly', async () => {
